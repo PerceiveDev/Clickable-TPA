@@ -1,0 +1,11 @@
+main: com.perceivedev.clickable-tpa.Clickable-TPA
+name: Clickable-TPA
+version: 1.0
+description: A bukkit plugin
+author: [Rayzr]
+#commands:
+#  clickable-tpa:
+#    description: Clickable-TPA main command
+#    aliases: [alias1,alias2]
+#    usage: "/clickable-tpa [command]"
+#    permission: Clickable-TPA.main
