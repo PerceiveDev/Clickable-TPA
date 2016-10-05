@@ -1,0 +1,11 @@
+tpa-command-permission: "essentials.tpa" # The permission for running the tpa command
+## Placeholders
+#    %player% = The player that ran the /tpa command
+#    %accept% = The clickable text to accept the request
+#    %deny% = The clickable text to deny the request
+message:
+  line-1: "&2%sender% &6has requested to teleport to you!" # Line one of the message to send to the player
+  line-2: "&6Click %accept% or %deny%" # Line two of the message to send to the player (Leave empty for no second line, i.e "")
+  accept: "&2Accept" # The text of the %accept% placeholder
+  deny: "&cDeny" # The text of the %deny% placeholder
+  use-display-name: false # If true use the display name rather than the real name for the %player% placeholder
