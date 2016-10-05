@@ -2,6 +2,7 @@ package com.perceivedev.clicktpa;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -27,25 +28,60 @@ public class ClickableTPA extends JavaPlugin implements Listener {
 					// Has player as argument
 					if (Bukkit.getPlayer(command.split(" ")[1]) != null) {
 						// Valid player (and online)
-						String acceptText = getConfig().getString("message.accept");
-						String denyText = getConfig().getString("message.deny");
-						boolean useDisplayName = getConfig().getBoolean("message.use-display-name");
-						String[] firstLine = getConfig().getString("message.line-1").split(" ");
-						JSONMessage message;
-						for (int i = 0; i < firstLine.length; i++) {
-							if (i == 0) {
-								message = JSONMessage.create();
-								if (firstLine[i].contains("&")) {
-									int index = firstLine[i].indexOf("&");
-									ChatColor colour = ChatColor.getByChar(firstLine[i].substring(index, index + 1));
-									// Add text to JSONMessage instance
-								}
-							}
-						}
+						sendMessages(Bukkit.getPlayer(command.split(" ")[1]));
 					}
 				}
 			}
 		}
+	}
+	
+	private JSONMessage getFirstLine(Player player) {
+		boolean useDisplayName = getConfig().getBoolean("message.use-display-name");
+		JSONMessage message = JSONMessage.create();
+		if (getConfig().getString("message.line-1") != "") {
+			String[] words = getConfig().getString("message.line-1").split(" ");
+			for (int i = 0; i < words.length; i++) {
+				String word = trans(words[i].replace("%player%", useDisplayName ? player.getDisplayName() : player.getName()));
+				if (word.equalsIgnoreCase("%accept%")) {
+					message.then(word).runCommand("tpaccept");
+				} else if (word.equalsIgnoreCase("%deny%")) {
+					message.then(word).runCommand("tpdeny");
+				} else {
+					message.then(word);
+				}
+				message.then(" ");
+			}
+		}
+		return message;
+	}
+	
+	private JSONMessage getSecondLine(Player player) {
+		boolean useDisplayName = getConfig().getBoolean("message.use-display-name");
+		JSONMessage message = JSONMessage.create();
+		if (getConfig().getString("message.line-2") != "") {
+			String[] words = getConfig().getString("message.line-2").split(" ");
+			for (int i = 0; i < words.length; i++) {
+				String word = trans(words[i].replace("%player%", useDisplayName ? player.getDisplayName() : player.getName()));
+				if (word.equalsIgnoreCase("%accept%")) {
+					message.then(word).runCommand("tpaccept");
+				} else if (word.equalsIgnoreCase("%deny%")) {
+					message.then(word).runCommand("tpdeny");
+				} else {
+					message.then(word);
+				}
+				message.then(" ");
+			}
+		}
+		return message;
+	}
+	
+	private void sendMessages(Player player) {
+		getFirstLine(player).send(player);
+		getSecondLine(player).send(player);
+	}
+	
+	private String trans(String string) {
+		return ChatColor.translateAlternateColorCodes('&', string);
 	}
 
 }

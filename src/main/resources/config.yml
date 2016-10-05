@@ -4,7 +4,7 @@ tpa-command-permission: "essentials.tpa" # The permission for running the tpa co
 #    %accept% = The clickable text to accept the request
 #    %deny% = The clickable text to deny the request
 message:
-  line-1: "&2%sender% &6has requested to teleport to you!" # Line one of the message to send to the player
+  line-1: "&2%player% &6has requested to teleport to you!" # Line one of the message to send to the player
   line-2: "&6Click %accept% or %deny%" # Line two of the message to send to the player (Leave empty for no second line, i.e "")
   accept: "&2Accept" # The text of the %accept% placeholder
   deny: "&cDeny" # The text of the %deny% placeholder
