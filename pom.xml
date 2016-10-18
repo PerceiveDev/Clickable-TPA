@@ -2,10 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.perceivedev</groupId>
-	<artifactId>clickable-tpa</artifactId>
+	<artifactId>clickabletpa</artifactId>
 	<version>1.0</version>
-    <name>Clickable-TPA</name>
-
+	<name>Clickable TPA</name>
 	<repositories>
         <repository>
             <id>spigotmc-repo</id>
@@ -22,7 +21,7 @@
     </dependencies>
 
     <build>
-        <finalName>${project.name}-${project.version}</finalName>
+        <finalName>${project.name} ${project.version}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <defaultGoal>clean package</defaultGoal>
         <resources>
