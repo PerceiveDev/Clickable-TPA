@@ -39,15 +39,15 @@ public class JSONMessage {
 
             String styleName;
             switch (style) {
-            case MAGIC:
-                styleName = "obfuscated";
-                break;
-            case UNDERLINE:
-                styleName = "underlined";
-                break;
-            default:
-                styleName = style.name().toLowerCase();
-                break;
+                case MAGIC:
+                    styleName = "obfuscated";
+                    break;
+                case UNDERLINE:
+                    styleName = "underlined";
+                    break;
+                default:
+                    styleName = style.name().toLowerCase();
+                    break;
             }
 
             builder.put(style, styleName);
@@ -132,9 +132,10 @@ public class JSONMessage {
     public String toString() {
         return toJSON().toString();
     }
-    
+
     /**
-     * Converts this JSONMessage object to the legacy formatting system, which uses formatting codes (like &6, &l, &4, etc.)
+     * Converts this JSONMessage object to the legacy formatting system, which
+     * uses formatting codes (like &6, &l, &4, etc.)
      */
     public String toLegacy() {
         StringBuilder output = new StringBuilder();
@@ -183,7 +184,7 @@ public class JSONMessage {
         ReflectionHelper.sendPacket(ReflectionHelper.createSubtitlePacket(toString()), players);
 
     }
-    
+
     /**
      * Sends an action bar message
      * 
