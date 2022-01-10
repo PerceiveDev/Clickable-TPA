@@ -1,5 +1,6 @@
 package com.perceivedev.clicktpa;
 
+import me.rayzr522.jsonmessage.JSONMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -55,46 +56,44 @@ public class ClickableTPA extends JavaPlugin implements Listener {
         }
     }
 
-    private JSONMessage getLine(Player player, String configPath) {
+    private void sendClickableMessage(Player player) {
         FileConfiguration config = getConfig();
-        boolean useDisplayName = config.getBoolean("message.use-display-name");
-        JSONMessage message = JSONMessage.create();
-        if (config.getString("message." + configPath) != "") {
-            String[] words = config.getString("message." + configPath).split(" ");
-            for (int i = 0; i < words.length; i++) {
-                String word = trans(words[i].replace("%player%", useDisplayName ? player.getDisplayName() : player.getName()));
-                if (word.equalsIgnoreCase("%accept%")) {
-                    message.then(trans(config.getString("message.accept"))).runCommand("/tpaccept");
-                } else if (word.equalsIgnoreCase("%deny%")) {
-                    message.then(trans(config.getString("message.deny"))).runCommand("/tpdeny");
-                } else {
-                    message.then(word).color(ChatColor.GOLD);
-                }
-                message.then(" ");
-            }
+        String configMessage = config.getString("message.line", "");
+        if (configMessage.isEmpty()) {
+            return;
         }
-        return message;
+
+        JSONMessage message = JSONMessage.create();
+        boolean useDisplayName = config.getBoolean("message.use-display-name");
+        for (String word : configMessage.split(" ")) {
+            if (word.equalsIgnoreCase("%accept%")) {
+                message.then(colorize(config.getString("message.accept"))).runCommand("/tpaccept");
+            } else if (word.equalsIgnoreCase("%deny%")) {
+                message.then(colorize(config.getString("message.deny"))).runCommand("/tpdeny");
+            } else {
+                message.then(colorize(word.replace("%player%", useDisplayName ? player.getDisplayName() : player.getName()))).color(ChatColor.GOLD);
+            }
+            message.then(" ");
+        }
+        message.send(player);
     }
 
     private void sendMessages(Player player) {
-        String spacer = getConfig().getString("message.spacer");
-        sendSpacer(player, spacer);
-        getLine(player, "line").send(player);
-        sendSpacer(player, spacer);
+        sendSpacer(player);
+        sendClickableMessage(player);
+        sendSpacer(player);
     }
 
-    private void sendSpacer(Player player, String spacer) {
-        if (spacer.equals("")) {
-            return;
-        } else if (spacer.equals("bar")) {
+    private void sendSpacer(Player player) {
+        String spacer = getConfig().getString("message.spacer", "");
+        if (spacer.equals("bar")) {
             JSONMessage.create().bar().send(player);
-        } else {
-            player.sendMessage(trans(spacer));
+        } else if (!spacer.isEmpty()) {
+            player.sendMessage(colorize(spacer));
         }
     }
 
-    private String trans(String string) {
+    private String colorize(String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
-
 }

@@ -1,4 +1,4 @@
-name: ClickableTPA
-version: 1.0
+name: ${project.name}
+version: ${project.version}
 description: Adds clickable chat text functionality for the /tpa command
 main: com.perceivedev.clicktpa.ClickableTPA
